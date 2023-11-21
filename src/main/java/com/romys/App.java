@@ -1,13 +1,13 @@
-package com.romys.strorewithjersey;
+package com.romys;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class StrorewithjerseyApplication {
+public class App {
 
 	public static void main(String[] args) {
-		SpringApplication.run(StrorewithjerseyApplication.class, args);
+		SpringApplication.run(App.class, args);
 	}
 
 }
