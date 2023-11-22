@@ -23,7 +23,7 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import java.util.List;
 
 import com.romys.models.ProductModel;
-import com.romys.payloads.responses.BodyResponses;
+import com.romys.payloads.responses.BodyResponse;
 import com.romys.services.ProductService;
 
 @RestController
@@ -33,9 +33,9 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<BodyResponses<ProductModel>> getAllProducts()
+    public ResponseEntity<BodyResponse<List<ProductModel>>> getAllProducts()
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return new ResponseEntity<>(new BodyResponses<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
+        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
                 "all data products", this.service.getAll()), HttpStatus.OK);
     }
 
