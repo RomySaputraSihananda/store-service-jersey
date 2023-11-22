@@ -35,7 +35,7 @@ public class ProductService {
     @Autowired
     private Client client;
 
-    public List<?> getAll()
+    public List<ProductModel> getAll()
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
 
         return this.convert2Models(
@@ -44,8 +44,13 @@ public class ProductService {
                         .getEntity(String.class));
     }
 
-    public ProductModel create(ProductModel product) {
-        return null;
+    public JsonNode create(ProductModel product)
+            throws JsonProcessingException, ClientHandlerException, UniformInterfaceException {
+        return this.objectMapper.readValue(
+                this.client.resource(String.format("%s/%s/_doc", host, index)).type(MediaType.APPLICATION_JSON)
+                        .post(ClientResponse.class, objectMapper.writeValueAsString(product))
+                        .getEntity(String.class),
+                JsonNode.class);
     }
 
     public ProductModel getById(String id)
@@ -64,6 +69,16 @@ public class ProductService {
         System.out.println(data);
     }
 
+    public ProductModel getByField(String field, String value)
+            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
+        // String data = this.client.resource(String.format("%s/%s/_doc/%s", host,
+        // index, id))
+        // .type(MediaType.APPLICATION_JSON)
+        // .delete(ClientResponse.class).getEntity(String.class);
+        // System.out.println(data);
+        return null;
+    }
+
     private ProductModel convert2Model(String rawJson)
             throws JsonMappingException, JsonProcessingException, IllegalArgumentException {
         return this.objectMapper.treeToValue(this.objectMapper.readValue(
@@ -71,7 +86,7 @@ public class ProductService {
                 JsonNode.class).get("_source"), ProductModel.class);
     }
 
-    private List<?> convert2Models(String rawJson)
+    private List<ProductModel> convert2Models(String rawJson)
             throws JsonMappingException, JsonProcessingException, UniformInterfaceException, ClientHandlerException {
 
         return this.objectMapper.readValue(this.objectMapper.readValue(this.objectMapper.readValue(rawJson,

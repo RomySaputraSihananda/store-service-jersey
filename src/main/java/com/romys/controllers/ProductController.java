@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -57,7 +58,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductModel createProduct(@RequestBody ProductModel product)
+    public JsonNode createProduct(@RequestBody ProductModel product)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
         return this.service.create(product);
     }
@@ -74,6 +75,12 @@ public class ProductController {
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
         this.service.deleteById(id);
         return "deleted";
+    }
+
+    @GetMapping("/search")
+    public ProductModel searchByField(@RequestParam String field, @RequestParam String value)
+            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
+        return this.service.getByField(field, value);
     }
 
     @GetMapping("/test")
