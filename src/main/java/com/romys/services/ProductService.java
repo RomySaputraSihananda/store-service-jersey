@@ -69,14 +69,15 @@ public class ProductService {
         System.out.println(data);
     }
 
-    public ProductModel getByField(String field, String value)
+    public List<ProductModel> getByField(String field, String value)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        // String data = this.client.resource(String.format("%s/%s/_doc/%s", host,
-        // index, id))
-        // .type(MediaType.APPLICATION_JSON)
-        // .delete(ClientResponse.class).getEntity(String.class);
-        // System.out.println(data);
-        return null;
+        return this.convert2Models(
+                this.client.resource(String.format("%s/%s/_search", host, index)).type(MediaType.APPLICATION_JSON)
+                        .post(ClientResponse.class,
+                                String.format(
+                                        "{\"query\":{\"bool\":{\"must\":[{\"match_phrase_prefix\":{\"%s\":\"%s\"}}]}}}",
+                                        field, value))
+                        .getEntity(String.class));
     }
 
     private ProductModel convert2Model(String rawJson)

@@ -78,7 +78,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ProductModel searchByField(@RequestParam String field, @RequestParam String value)
+    public List<ProductModel> searchByField(@RequestParam String field, @RequestParam String value)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
         return this.service.getByField(field, value);
     }
