@@ -19,6 +19,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -41,6 +42,10 @@ public class ProductService {
                 this.client.resource(String.format("%s/%s/_search", host, index)).accept(MediaType.APPLICATION_JSON)
                         .get(ClientResponse.class)
                         .getEntity(String.class));
+    }
+
+    public ProductModel create(ProductModel product) {
+        return null;
     }
 
     public ProductModel getById(String id)
@@ -68,9 +73,13 @@ public class ProductService {
 
     private List<?> convert2Models(String rawJson)
             throws JsonMappingException, JsonProcessingException, UniformInterfaceException, ClientHandlerException {
-        return this.objectMapper.readValue(this.objectMapper.readValue(rawJson,
+
+        return this.objectMapper.readValue(this.objectMapper.readValue(this.objectMapper.readValue(rawJson,
                 JsonNode.class).get("hits").get("hits").toString(),
-                new TypeReference<List<?>>() {
+                new TypeReference<List<JsonNode>>() {
+                }).stream().map(
+                        product -> product.get("_source"))
+                .collect(Collectors.toList()).toString(), new TypeReference<List<ProductModel>>() {
                 });
     }
 }
