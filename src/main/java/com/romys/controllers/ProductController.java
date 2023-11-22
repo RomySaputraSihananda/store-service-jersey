@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,6 +58,14 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public String deleteProductById(@PathVariable String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
+        this.service.deleteById(id);
+        return "deleted";
+    }
+
+    @PutMapping("/{id}")
+    public String updateProductById(@RequestBody ProductModel product, @PathVariable String id)
+            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
+        this.service.deleteById(id);
         return "deleted";
     }
 

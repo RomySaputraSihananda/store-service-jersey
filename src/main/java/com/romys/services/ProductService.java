@@ -53,9 +53,10 @@ public class ProductService {
 
     public void deleteById(String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        this.client.resource(String.format("%s/%s/_doc/%s", host, index, id)).accept(MediaType.APPLICATION_JSON)
-                .delete(ClientResponse.class)
-                .getEntity(String.class);
+        String data = this.client.resource(String.format("%s/%s/_doc/%s", host, index, id))
+                .type(MediaType.APPLICATION_JSON)
+                .delete(ClientResponse.class).getEntity(String.class);
+        System.out.println(data);
     }
 
     private ProductModel convert2Model(String rawJson)
