@@ -1,9 +1,6 @@
 package com.romys.controllers;
 
-import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,30 +9,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.api.client.WebResource;
+
+import com.romys.services.ProductService;
 
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
-
-    @Value("${service.elastic.host}")
-    private String host;
-
     @Autowired
-    private WebResource webResource;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ProductService service;
 
     @GetMapping
     public JsonNode getAll()
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return objectMapper.readValue(
-                this.webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class).getEntity(String.class),
-                JsonNode.class).get("_source");
+        return this.service.getAll();
     }
 }
+
+// throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+// UniformInterfaceException
