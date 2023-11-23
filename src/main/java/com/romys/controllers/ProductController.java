@@ -38,12 +38,13 @@ public class ProductController {
          * Get All Product
          */
         @GetMapping
-        @Operation(summary = "Get all products", description = "API for get all products")
-        public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> getAllProducts()
+        @Operation(summary = "Get products with pagination", description = "API for get products with pagination")
+        public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> getAllProducts(@RequestParam int size,
+                        @RequestParam int page)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
                 return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
-                                "all data products", this.service.getAll()), HttpStatus.OK);
+                                "all data products", this.service.getAll(size, page)), HttpStatus.OK);
         }
 
         /*

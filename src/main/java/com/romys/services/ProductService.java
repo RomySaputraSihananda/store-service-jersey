@@ -52,6 +52,23 @@ public class ProductService {
         }
 
         /*
+         * get all data from elasticsearch
+         */
+        public List<ElasticHit<ProductModel>> getAll(int size, int page)
+                        throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+                        UniformInterfaceException {
+
+                return this.convert2Models(this.client.resource(String.format("%s/%s/_search", host, index))
+                                .type(MediaType.APPLICATION_JSON)
+                                .post(ClientResponse.class,
+                                                String.format(
+                                                                "{\"query\":{\"query_string\":{\"query\":\"*\"}},\"size\":%d,\"from\":%d}",
+                                                                size,
+                                                                size * (page - 1)))
+                                .getEntity(String.class));
+        }
+
+        /*
          * create data and send to elasticsearch
          */
         public ElasticHit<ProductModel> create(ProductModel product)
