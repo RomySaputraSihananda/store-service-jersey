@@ -121,13 +121,26 @@ public class ProductService {
         public ElasticHit<ProductModel> update(ProductModel product, String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
-                ClientResponse res = this.client.resource(String.format("%s/%s/_update/%s", host, index, id))
-                                .type(MediaType.APPLICATION_JSON)
-                                .post(ClientResponse.class, objectMapper.writeValueAsString(product));
-                System.out.println(String.format("{\"doc\": %s}", objectMapper.writeValueAsString(product)));
-                System.out.println(res.toString());
 
-                return this.getById(id);
+                ElasticHit<ProductModel> hit = this.getById(id);
+
+                hit.source().setTitle(product.getTitle());
+                hit.source().setDescription(product.getDescription());
+                hit.source().setPrice(product.getPrice());
+                hit.source().setDiscountPercentage(product.getDiscountPercentage());
+                hit.source().setRating(product.getRating());
+                hit.source().setStock(product.getStock());
+                hit.source().setBrand(product.getBrand());
+                hit.source().setCategory(product.getCategory());
+                hit.source().setThumbnail(product.getThumbnail());
+                hit.source().setImages(product.getImages());
+
+                this.client.resource(String.format("%s/%s/_update/%s", host, index, id))
+                                .type(MediaType.APPLICATION_JSON)
+                                .post(ClientResponse.class, String.format("{\"doc\": %s}",
+                                                objectMapper.writeValueAsString(hit.source())));
+
+                return hit;
         }
 
         /*

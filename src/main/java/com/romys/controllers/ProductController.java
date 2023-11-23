@@ -77,10 +77,10 @@ public class ProductController {
                         @PathVariable String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
-                return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(),
-                                HttpStatus.CREATED.value(),
+                return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(),
+                                HttpStatus.OK.value(),
                                 String.format("data success updated"), this.service.update(product, id)),
-                                HttpStatus.CREATED);
+                                HttpStatus.OK);
         }
 
         /*
