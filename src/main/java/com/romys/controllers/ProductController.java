@@ -23,6 +23,7 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import java.util.List;
 
 import com.romys.models.ProductModel;
+import com.romys.payloads.hit.ElasticHit;
 import com.romys.payloads.responses.BodyResponse;
 import com.romys.services.ProductService;
 
@@ -33,16 +34,17 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<BodyResponse<List<ProductModel>>> getAllProducts()
+    public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> getAllProducts()
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
         return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
                 "all data products", this.service.getAll()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ProductModel getProductById(@PathVariable String id)
+    public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> getProductById(@PathVariable String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return this.service.getById(id);
+        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
+                String.format("data products with %s", id), this.service.getById(id)), HttpStatus.OK);
     }
 
     @PostMapping
@@ -66,8 +68,10 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public List<ProductModel> searchByField(@RequestParam String field, @RequestParam String value)
+    public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> searchByField(@RequestParam String field,
+            @RequestParam String value)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return this.service.getByField(field, value);
+        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
+                "all data products", this.service.getByField(field, value)), HttpStatus.OK);
     }
 }
