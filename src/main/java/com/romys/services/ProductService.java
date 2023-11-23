@@ -1,7 +1,9 @@
 package com.romys.services;
 
+import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.catalina.WebResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -119,7 +121,13 @@ public class ProductService {
         public ElasticHit<ProductModel> update(ProductModel product, String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
-                return null;
+                ClientResponse res = this.client.resource(String.format("%s/%s/_update/%s", host, index, id))
+                                .type(MediaType.APPLICATION_JSON)
+                                .post(ClientResponse.class, objectMapper.writeValueAsString(product));
+                System.out.println(String.format("{\"doc\": %s}", objectMapper.writeValueAsString(product)));
+                System.out.println(res.toString());
+
+                return this.getById(id);
         }
 
         /*

@@ -29,69 +29,83 @@ import com.romys.services.ProductService;
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
-    @Autowired
-    private ProductService service;
+        @Autowired
+        private ProductService service;
 
-    /*
-     * Get All Product
-     */
-    @GetMapping
-    public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> getAllProducts()
-            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
-                "all data products", this.service.getAll()), HttpStatus.OK);
-    }
+        /*
+         * Get All Product
+         */
+        @GetMapping
+        public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> getAllProducts()
+                        throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+                        UniformInterfaceException {
+                return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
+                                "all data products", this.service.getAll()), HttpStatus.OK);
+        }
 
-    /*
-     * Get Product by id
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> getProductById(@PathVariable String id)
-            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
-                String.format("data products with id %s", id), this.service.getById(id)), HttpStatus.OK);
-    }
+        /*
+         * Get Product by id
+         */
+        @GetMapping("/{id}")
+        public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> getProductById(@PathVariable String id)
+                        throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+                        UniformInterfaceException {
+                return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
+                                String.format("data products with id %s", id), this.service.getById(id)),
+                                HttpStatus.OK);
+        }
 
-    /*
-     * Create Product
-     */
-    @PostMapping
-    public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> createProduct(@RequestBody ProductModel product)
-            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
-                String.format("data success created"), this.service.create(product)), HttpStatus.CREATED);
-    }
+        /*
+         * Create Product
+         */
+        @PostMapping
+        public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> createProduct(@RequestBody ProductModel product)
+                        throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+                        UniformInterfaceException {
+                return new ResponseEntity<>(
+                                new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
+                                                String.format("data success created"), this.service.create(product)),
+                                HttpStatus.CREATED);
+        }
 
-    /*
-     * Update Product By id
-     */
-    @PutMapping("/{id}")
-    public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> updateProductById(@RequestBody ProductModel product,
-            @PathVariable String id)
-            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
-                String.format("data success created"), this.service.update(product, id)), HttpStatus.CREATED);
-    }
+        /*
+         * Update Product By id
+         */
+        @PutMapping("/{id}")
+        public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> updateProductById(
+                        @RequestBody ProductModel product,
+                        @PathVariable String id)
+                        throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+                        UniformInterfaceException {
+                return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(),
+                                HttpStatus.CREATED.value(),
+                                String.format("data success updated"), this.service.update(product, id)),
+                                HttpStatus.CREATED);
+        }
 
-    /*
-     * Delete Product By id
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> deleteProductById(@PathVariable String id)
-            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
+        /*
+         * Delete Product By id
+         */
+        @DeleteMapping("/{id}")
+        public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> deleteProductById(@PathVariable String id)
+                        throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+                        UniformInterfaceException {
 
-        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
-                String.format("data success created"), this.service.deleteById(id)), HttpStatus.CREATED);
-    }
+                return new ResponseEntity<>(
+                                new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
+                                                String.format("data success deleted"), this.service.deleteById(id)),
+                                HttpStatus.CREATED);
+        }
 
-    /*
-     * Search Product by field
-     */
-    @GetMapping("/search")
-    public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> searchByField(@RequestParam String field,
-            @RequestParam String value)
-            throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
-                "all data products", this.service.getByField(field, value)), HttpStatus.OK);
-    }
+        /*
+         * Search Product by field
+         */
+        @GetMapping("/search")
+        public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> searchByField(@RequestParam String field,
+                        @RequestParam String value)
+                        throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+                        UniformInterfaceException {
+                return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
+                                "all data products", this.service.getByField(field, value)), HttpStatus.OK);
+        }
 }
