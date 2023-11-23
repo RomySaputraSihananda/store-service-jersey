@@ -6,13 +6,8 @@
 
 # Dependency
 
-- org.springdoc:springdoc-openapi-starter-webmvc-ui:**2.2.0**
-- co.elastic.clients:elasticsearch-java:**8.10.4**
-- com.fasterxml.jackson.core:jackson-databind:**2.15.2**
+- org.springframework.boot:spring-boot-starter-web:**3.1.5**
 - org.projectlombok:lombok:**1.18.30**
-- org.springframework.boot:spring-boot-starter-web:**undefined**
-- org.projectlombok:lombok:**undefined**
-- org.springframework.boot:spring-boot-starter-test:**undefined**
 - org.springdoc:springdoc-openapi-starter-webmvc-ui:**2.1.0**
 - com.sun.jersey:jersey-client:**1.19.4**
 - com.fasterxml.jackson.core:jackson-databind:**2.15.2**
@@ -21,16 +16,18 @@
 
 The following is a list of available Request URIs:
 
-- **GET** API for get all surat.
-  - http://127.0.0.1:4444/api/v1/alquran
-- **GET** API for get detail surat.
-  - http://127.0.0.1:4444/api/v1/alquran/{nomorSurat}
-- **GET** API for get tafsir surat.
-  - http://127.0.0.1:4444/api/v1/alquran/tafsir/{nomorSurat}
-- **GET** API for search by name surat.
-  - http://127.0.0.1:4444/api/v1/alquran/search/nama/{namaSurat}
-- **GET** API for search by tempat turun surat.
-  - http://127.0.0.1:4444/api/v1/alquran/search/tempatTurun/{tempatTurun}
+- **GET** API for get products with pagination.
+  - http://127.0.0.1:4444/api/v1/product
+- **GET** API for get product by id.
+  - http://127.0.0.1:4444/api/v1/product/{id}
+- **POST** API for create new product.
+  - http://127.0.0.1:4444/api/v1/product
+- **PUT** API for update product.
+  - http://127.0.0.1:4444/api/v1/product/{id}
+- **DEL** API for delete product.
+  - http://127.0.0.1:4444/api/v1/product/{id}
+- **GET** API for get product by name.
+  - http://127.0.0.1:4444/api/v1/product/search
 
 ## Licence
 
