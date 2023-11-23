@@ -19,6 +19,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.util.List;
 
 import com.romys.models.ProductModel;
@@ -36,6 +38,7 @@ public class ProductController {
          * Get All Product
          */
         @GetMapping
+        @Operation(summary = "Get all products", description = "API for get all products")
         public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> getAllProducts()
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
@@ -47,6 +50,7 @@ public class ProductController {
          * Get Product by id
          */
         @GetMapping("/{id}")
+        @Operation(summary = "Get product by id", description = "API for get product by id")
         public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> getProductById(@PathVariable String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
@@ -59,6 +63,7 @@ public class ProductController {
          * Create Product
          */
         @PostMapping
+        @Operation(summary = "Create new product", description = "API for create new product")
         public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> createProduct(@RequestBody ProductModel product)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
@@ -72,6 +77,7 @@ public class ProductController {
          * Update Product By id
          */
         @PutMapping("/{id}")
+        @Operation(summary = "Update product", description = "API for update product")
         public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> updateProductById(
                         @RequestBody ProductModel product,
                         @PathVariable String id)
@@ -87,6 +93,7 @@ public class ProductController {
          * Delete Product By id
          */
         @DeleteMapping("/{id}")
+        @Operation(summary = "Delete product", description = "API for delete product")
         public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> deleteProductById(@PathVariable String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
@@ -101,6 +108,7 @@ public class ProductController {
          * Search Product by field
          */
         @GetMapping("/search")
+        @Operation(summary = "Get product by name", description = "API for get product by name")
         public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> searchByField(@RequestParam String field,
                         @RequestParam String value)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,

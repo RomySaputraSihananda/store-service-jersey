@@ -1,9 +1,7 @@
 package com.romys.services;
 
-import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.catalina.WebResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
