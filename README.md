@@ -2,7 +2,7 @@
 
 # store-service with Jersey
 
-![](https://github.com/RomySaputraSihananda/RomySaputraSihananda/blob/cf744cd6d2aaaf2198e08d537e85bdc253b03329/images/F7t_krHa0AAd7mv.jpg)
+![](https://raw.githubusercontent.com/RomySaputraSihananda/RomySaputraSihananda/main/images/fr2.jpg)
 
 Store Services Rest API with Sping Boot v3.1.5</br>uses Elasticsearch as Storage Database, Jersey Client for send request to ElasticSearch</br> and also Swagger UI for Endpoint API documentation.
 
