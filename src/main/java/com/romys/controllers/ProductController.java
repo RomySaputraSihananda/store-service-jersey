@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.UniformInterfaceException;
@@ -44,13 +43,14 @@ public class ProductController {
     public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> getProductById(@PathVariable String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
         return new ResponseEntity<>(new BodyResponse<>(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK.value(),
-                String.format("data products with %s", id), this.service.getById(id)), HttpStatus.OK);
+                String.format("data products with id %s", id), this.service.getById(id)), HttpStatus.OK);
     }
 
     @PostMapping
-    public JsonNode createProduct(@RequestBody ProductModel product)
+    public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> createProduct(@RequestBody ProductModel product)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        return this.service.create(product);
+        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
+                String.format("data success created"), this.service.create(product)), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

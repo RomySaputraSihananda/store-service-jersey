@@ -20,6 +20,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,14 +48,15 @@ public class ProductService {
                                                 .getEntity(String.class));
         }
 
-        public JsonNode create(ProductModel product)
+        public ElasticHit<ProductModel> create(ProductModel product)
                         throws JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-                return this.objectMapper.readValue(
-                                this.client.resource(String.format("%s/%s/_doc", host, index))
-                                                .type(MediaType.APPLICATION_JSON)
-                                                .post(ClientResponse.class, objectMapper.writeValueAsString(product))
-                                                .getEntity(String.class),
-                                JsonNode.class);
+                String id = UUID.randomUUID().toString();
+
+                this.client.resource(String.format("%s/%s/_doc/%s", host, index, id))
+                                .type(MediaType.APPLICATION_JSON)
+                                .post(ClientResponse.class, objectMapper.writeValueAsString(product));
+
+                return this.getById(id);
         }
 
         public ElasticHit<ProductModel> getById(String id)
@@ -67,13 +69,14 @@ public class ProductService {
                                                 .getEntity(String.class));
         }
 
-        public void deleteById(String id)
+        public ElasticHit<ProductModel> deleteById(String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
-                String data = this.client.resource(String.format("%s/%s/_doc/%s", host, index, id))
+                this.client.resource(String.format("%s/%s/_doc/%s", host, index, id))
                                 .type(MediaType.APPLICATION_JSON)
                                 .delete(ClientResponse.class).getEntity(String.class);
-                System.out.println(data);
+
+                return null;
         }
 
         public List<ElasticHit<ProductModel>> getByField(String field, String value)
