@@ -37,6 +37,9 @@ public class ProductService {
         @Autowired
         private Client client;
 
+        /*
+         * get all data from elasticsearch
+         */
         public List<ElasticHit<ProductModel>> getAll()
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
@@ -48,6 +51,9 @@ public class ProductService {
                                                 .getEntity(String.class));
         }
 
+        /*
+         * create data and send to elasticsearch
+         */
         public ElasticHit<ProductModel> create(ProductModel product)
                         throws JsonProcessingException, ClientHandlerException, UniformInterfaceException {
                 String id = UUID.randomUUID().toString();
@@ -59,6 +65,9 @@ public class ProductService {
                 return this.getById(id);
         }
 
+        /*
+         * get data by id from elasticsearch
+         */
         public ElasticHit<ProductModel> getById(String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
@@ -69,21 +78,28 @@ public class ProductService {
                                                 .getEntity(String.class));
         }
 
+        /*
+         * get all data from elasticsearch
+         */
         public ElasticHit<ProductModel> deleteById(String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
 
-                JsonNode product = this.client.resource(String.format("%s/%s/_doc/%s", host, index, id))
-                                .type(MediaType.APPLICATION_JSON)
-                                .delete(ClientResponse.class).getEntity(JsonNode.class);
+                JsonNode product = this.objectMapper
+                                .readValue(this.client.resource(String.format("%s/%s/_doc/%s", host, index, id))
+                                                .type(MediaType.APPLICATION_JSON)
+                                                .delete(ClientResponse.class).getEntity(String.class), JsonNode.class);
 
-                if (product.get("result").toString().equals("not_found")) {
+                if (objectMapper.readValue(product.get("result").toString(), String.class).equals("not_found")) {
                         throw new ProductException("Product Not Found");
                 }
 
                 return null;
         }
 
+        /*
+         * get data by field and value from elasticsearch
+         */
         public List<ElasticHit<ProductModel>> getByField(String field, String value)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
@@ -97,12 +113,18 @@ public class ProductService {
                                                 .getEntity(String.class));
         }
 
-        public List<ElasticHit<ProductModel>> update(ProductModel product, String id)
+        /*
+         * update data from elasticsearch
+         */
+        public ElasticHit<ProductModel> update(ProductModel product, String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
                 return null;
         }
 
+        /*
+         * method to convert String Json to Model
+         */
         private ElasticHit<ProductModel> convert2Model(String rawJson)
                         throws JsonMappingException, JsonProcessingException, IllegalArgumentException {
                 JsonNode product = this.objectMapper.readValue(
@@ -125,6 +147,9 @@ public class ProductService {
                                                 ProductModel.class));
         }
 
+        /*
+         * method to convert String Json to List of Model
+         */
         private List<ElasticHit<ProductModel>> convert2Models(String rawJson)
                         throws JsonMappingException, JsonProcessingException, UniformInterfaceException,
                         ClientHandlerException {

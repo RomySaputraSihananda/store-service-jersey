@@ -69,9 +69,8 @@ public class ProductController {
     public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> updateProductById(@RequestBody ProductModel product,
             @PathVariable String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        this.service.update(product, id);
         return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
-                String.format("data success created"), this.service.create(product)), HttpStatus.CREATED);
+                String.format("data success created"), this.service.update(product, id)), HttpStatus.CREATED);
     }
 
     /*
@@ -80,8 +79,9 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> deleteProductById(@PathVariable String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        this.service.deleteById(id);
-        return null;
+
+        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
+                String.format("data success created"), this.service.deleteById(id)), HttpStatus.CREATED);
     }
 
     /*
