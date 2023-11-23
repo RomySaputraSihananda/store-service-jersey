@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.romys.exceptions.ProductException;
 import com.romys.models.ProductModel;
 import com.romys.payloads.hit.ElasticHit;
 import com.sun.jersey.api.client.Client;
@@ -95,7 +96,7 @@ public class ProductService {
                                 JsonNode.class);
 
                 if (!product.get("found").asBoolean()) {
-                        System.out.println("ashdkjhadskjahdkjhasjdhakjmemek");
+                        throw new ProductException("Product Not Found");
                 }
 
                 return new ElasticHit<>(
