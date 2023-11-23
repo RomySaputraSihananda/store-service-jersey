@@ -72,9 +72,14 @@ public class ProductService {
         public ElasticHit<ProductModel> deleteById(String id)
                         throws JsonMappingException, JsonProcessingException, ClientHandlerException,
                         UniformInterfaceException {
-                this.client.resource(String.format("%s/%s/_doc/%s", host, index, id))
+
+                JsonNode product = this.client.resource(String.format("%s/%s/_doc/%s", host, index, id))
                                 .type(MediaType.APPLICATION_JSON)
-                                .delete(ClientResponse.class).getEntity(String.class);
+                                .delete(ClientResponse.class).getEntity(JsonNode.class);
+
+                if (product.get("result").toString().equals("not_found")) {
+                        throw new ProductException("Product Not Found");
+                }
 
                 return null;
         }
@@ -90,6 +95,12 @@ public class ProductService {
                                                                                 "{\"query\":{\"bool\":{\"must\":[{\"match_phrase_prefix\":{\"%s\":\"%s\"}}]}}}",
                                                                                 field, value))
                                                 .getEntity(String.class));
+        }
+
+        public List<ElasticHit<ProductModel>> update(ProductModel product, String id)
+                        throws JsonMappingException, JsonProcessingException, ClientHandlerException,
+                        UniformInterfaceException {
+                return null;
         }
 
         private ElasticHit<ProductModel> convert2Model(String rawJson)

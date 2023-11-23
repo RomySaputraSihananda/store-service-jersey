@@ -32,6 +32,9 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
+    /*
+     * Get All Product
+     */
     @GetMapping
     public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> getAllProducts()
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
@@ -39,6 +42,9 @@ public class ProductController {
                 "all data products", this.service.getAll()), HttpStatus.OK);
     }
 
+    /*
+     * Get Product by id
+     */
     @GetMapping("/{id}")
     public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> getProductById(@PathVariable String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
@@ -46,6 +52,9 @@ public class ProductController {
                 String.format("data products with id %s", id), this.service.getById(id)), HttpStatus.OK);
     }
 
+    /*
+     * Create Product
+     */
     @PostMapping
     public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> createProduct(@RequestBody ProductModel product)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
@@ -53,20 +62,31 @@ public class ProductController {
                 String.format("data success created"), this.service.create(product)), HttpStatus.CREATED);
     }
 
+    /*
+     * Update Product By id
+     */
     @PutMapping("/{id}")
-    public String updateProductById(@RequestBody ProductModel product, @PathVariable String id)
+    public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> updateProductById(@RequestBody ProductModel product,
+            @PathVariable String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
-        this.service.deleteById(id);
-        return "deleted";
+        this.service.update(product, id);
+        return new ResponseEntity<>(new BodyResponse<>(HttpStatus.CREATED.getReasonPhrase(), HttpStatus.CREATED.value(),
+                String.format("data success created"), this.service.create(product)), HttpStatus.CREATED);
     }
 
+    /*
+     * Delete Product By id
+     */
     @DeleteMapping("/{id}")
-    public String deleteProductById(@PathVariable String id)
+    public ResponseEntity<BodyResponse<ElasticHit<ProductModel>>> deleteProductById(@PathVariable String id)
             throws JsonMappingException, JsonProcessingException, ClientHandlerException, UniformInterfaceException {
         this.service.deleteById(id);
-        return "deleted";
+        return null;
     }
 
+    /*
+     * Search Product by field
+     */
     @GetMapping("/search")
     public ResponseEntity<BodyResponse<List<ElasticHit<ProductModel>>>> searchByField(@RequestParam String field,
             @RequestParam String value)
