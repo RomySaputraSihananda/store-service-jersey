@@ -107,9 +107,8 @@ public class ProductService {
                                                 .type(MediaType.APPLICATION_JSON)
                                                 .delete(ClientResponse.class).getEntity(String.class), JsonNode.class);
 
-                if (objectMapper.readValue(product.get("result").toString(), String.class).equals("not_found")) {
+                if (objectMapper.readValue(product.get("result").toString(), String.class).equals("not_found"))
                         throw new ProductException("Product Not Found");
-                }
 
                 return null;
         }
@@ -167,9 +166,8 @@ public class ProductService {
                                 rawJson,
                                 JsonNode.class);
 
-                if (!product.get("found").asBoolean()) {
+                if (!product.get("found").asBoolean())
                         throw new ProductException("Product Not Found");
-                }
 
                 return new ElasticHit<>(
                                 this.objectMapper.treeToValue(
