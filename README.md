@@ -4,7 +4,7 @@
 
 ![](https://asset.kompas.com/crops/rfw-6z8NRJohYVC34YGa4XV69VA=/0x21:1080x741/750x500/data/photo/2023/02/13/63e9d84d1ead9.jpg)
 
-Web Services Rest API with Sping Boot v3.1.5</br>uses Elasticsearch as Storage Database and also Swagger UI for Endpoint API documentation.
+Store Services Rest API with Sping Boot v3.1.5</br>uses Elasticsearch as Storage Database, Jersey Client for send request to ElasticSearch</br> and also Swagger UI for Endpoint API documentation.
 
 # Dependency
 
